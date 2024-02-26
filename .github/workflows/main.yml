@@ -15,7 +15,7 @@ jobs:
 
       - name: Extract version from branch name using sed
         run: |
-         version=$(echo "${{ github.ref }}" | sed -E 's/^release\/(.*)$/\1/')
+         version=$(echo $GITHUB_HEAD_REF | sed -E 's/^release\/(.*)$/\1/')
          echo "Extracted version: $version"
 
       - name: Log in to Azure Container Registry
