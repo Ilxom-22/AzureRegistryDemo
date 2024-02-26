@@ -1,7 +1,8 @@
 name: Push to Azure Container Registry
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - release/**
 
