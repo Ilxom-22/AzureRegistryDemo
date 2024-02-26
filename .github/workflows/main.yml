@@ -57,4 +57,4 @@ jobs:
           acrName: demor
           containerAppName: demo-container
           resourceGroup: Container-Resources
-          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/demor:${{ env.IMAGE_VERSION }}
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:${{ env.IMAGE_VERSION }}
