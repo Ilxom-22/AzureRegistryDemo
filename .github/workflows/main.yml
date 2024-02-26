@@ -1,4 +1,4 @@
-name: Push to Azure Container Registry
+name: Push to Azure Container Registry and deploy to Azure Container App
 
 on:
   pull_request:
@@ -34,3 +34,27 @@ jobs:
           file: ./src/AzureRegistryDemo.Backend/AzureRegistryDemo/Dockerfile
           tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:${{ env.IMAGE_VERSION }}
           push: true
+
+  create-container-app:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Log in to Azure Container App
+        uses: azure/docker-login@v1
+        with:
+          creds: ${{ secrets.SP_CREDENTIALS }}
+
+      - name: Extract release version and Set to variable
+        id: release_version
+        run: |
+          VERSION=$(echo "${{ github.ref }}" | sed -E 's/^refs\/heads\/release\/(.*)$/\1/')
+          echo "IMAGE_VERSION=$VERSION" >> $GITHUB_ENV
+  
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          acrName: demor
+          containerAppName: demo-container
+          resourceGroup: Container-Resources
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/demor:${{ env.IMAGE_VERSION }}
