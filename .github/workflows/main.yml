@@ -25,5 +25,5 @@ jobs:
         with:
           context: ./src/AzureRegistryDemo.Backend
           file: ./src/AzureRegistryDemo.Backend/AzureRegistryDemo/Dockerfile
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:${{ github.head.ref }}
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:$GITHUB_HEAD_REF
           push: true
