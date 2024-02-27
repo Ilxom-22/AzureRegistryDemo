@@ -22,7 +22,7 @@ public static class SeedDataExtensions
             .RuleFor(user => user.EmailAddress, data => data.Person.Email)
             .RuleFor(user => user.Password, data => data.Internet.Password());
 
-        await appDbContext.AddRangeAsync(usersFaker.Generate(10));
+        await appDbContext.AddRangeAsync(usersFaker.Generate(1));
         await appDbContext.SaveChangesAsync();
     }
 }
