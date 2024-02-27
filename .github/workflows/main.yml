@@ -52,7 +52,7 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          acrName: demor
-          containerAppName: demo-container
-          resourceGroup: Container-Resources
+          acrName: ${{ secrets.ACR_USERNAME }}
+          containerAppName: ${{ secrets.ACA_CONTAINER }}
+          resourceGroup: ${{ secrets.ACA_RESOURCE_GROUP }}
           imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:${{ env.IMAGE_VERSION }}
