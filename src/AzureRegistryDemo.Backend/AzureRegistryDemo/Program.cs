@@ -10,14 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 builder.Services
-    .AddDbContext<AppDbContext>(options => 
-        options.UseInMemoryDatabase("AzureDemoRegistry"));
+    .AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnectionString")));
+        //options.UseInMemoryDatabase("AzureDemoRegistry"));
 
 var app = builder.Build();
 
 // Apply pending migrations to database
-/*var serviceScopeFactory = app.Services.GetRequiredKeyedService<IServiceScopeFactory>(null);
-await serviceScopeFactory.MigrateAsync<AppDbContext>();*/
+var serviceScopeFactory = app.Services.GetRequiredKeyedService<IServiceScopeFactory>(null);
+await serviceScopeFactory.MigrateAsync<AppDbContext>();
 
 // Add SeedData
 var serviceScope = app.Services.CreateScope();
