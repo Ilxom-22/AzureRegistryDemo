@@ -10,9 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;
+/*var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;*/
 
-Console.WriteLine(dbConnectionString);
+Console.WriteLine(builder.Configuration.GetSection("DbConnectionString"));
 
 builder.Services
     .AddDbContext<AppDbContext>(options =>
