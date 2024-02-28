@@ -11,7 +11,8 @@ public class UsersController(AppDbContext appDbContext) : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(appDbContext.Users.ToList());
+        //return Ok(appDbContext.Users.ToList());
+        return Ok(Environment.GetEnvironmentVariable("DbConnectionString"));
     }
 
     [HttpPost]

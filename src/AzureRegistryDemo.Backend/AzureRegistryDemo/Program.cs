@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 /*var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;*/
 
-Console.WriteLine(builder.Configuration.GetSection("DbConnectionString"));
+Console.WriteLine(Environment.GetEnvironmentVariable("DbConnectionString"));
 
 builder.Services
     .AddDbContext<AppDbContext>(options =>
@@ -22,8 +22,8 @@ builder.Services
 var app = builder.Build();
 
 // Apply pending migrations to database
-var serviceScopeFactory = app.Services.GetRequiredKeyedService<IServiceScopeFactory>(null);
-await serviceScopeFactory.MigrateAsync<AppDbContext>();
+/*var serviceScopeFactory = app.Services.GetRequiredKeyedService<IServiceScopeFactory>(null);
+await serviceScopeFactory.MigrateAsync<AppDbContext>();*/
 
 // Add SeedData
 var serviceScope = app.Services.CreateScope();
