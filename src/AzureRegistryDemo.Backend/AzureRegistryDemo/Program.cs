@@ -12,10 +12,12 @@ builder.Services.AddSwaggerGen();
 
 var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;
 
+Console.WriteLine(dbConnectionString);
+
 builder.Services
     .AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(dbConnectionString));
-        //options.UseInMemoryDatabase("AzureDemoRegistry"));
+        //options.UseNpgsql(dbConnectionString));
+        options.UseInMemoryDatabase("AzureDemoRegistry"));
 
 var app = builder.Build();
 
