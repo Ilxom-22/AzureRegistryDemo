@@ -6,7 +6,7 @@ on:
     branches:
       - release/**
     paths:
-      - ./src/AzureRegistryDemo.Frontend/**
+      - src/AzureRegistryDemo.Frontend/**
 
 jobs:
  build-and-push-second:
