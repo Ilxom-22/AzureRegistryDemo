@@ -10,9 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-/*var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;*/
-
 Console.WriteLine(Environment.GetEnvironmentVariable("DbConnectionString"));
+
+/*var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;*/
 
 builder.Services
     .AddDbContext<AppDbContext>(options =>
@@ -33,5 +33,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapControllers();
+
+Console.WriteLine(Environment.GetEnvironmentVariable("DbConnectionString"));
 
 app.Run();
