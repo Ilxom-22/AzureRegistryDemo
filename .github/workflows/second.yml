@@ -36,3 +36,27 @@ jobs:
           file: ./src/AzureRegistryDemo.Frontend/testFront/Dockerfile
           tags: ${{ secrets.ACR_LOGIN_SERVER }}/testfront:${{ env.IMAGE_VERSION }}
           push: true
+
+ create-container-app:
+    needs: build-and-push-second
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Log in to Azure Container App
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.SP_CREDENTIALS }}
+
+      - name: Extract release version and Set to variable
+        id: release_version
+        run: |
+          VERSION=$(echo "${{ github.ref }}" | sed -E 's/^refs\/heads\/release\/(.*)$/\1/')
+          echo "IMAGE_VERSION=$VERSION" >> $GITHUB_ENV
+  
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          acrName: demor
+          containerAppName: front-container
+          resourceGroup: Container-Resources
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/testfront:${{ env.IMAGE_VERSION }}
