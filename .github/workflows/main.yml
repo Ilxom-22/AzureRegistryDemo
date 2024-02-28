@@ -5,6 +5,8 @@ on:
     types: [closed]
     branches:
       - release/**
+    paths:
+      - ./src/AzureRegistryDemo.Backend/**
 
 jobs:
   build-and-push:
