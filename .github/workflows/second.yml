@@ -5,6 +5,8 @@ on:
     types: [closed]
     branches:
       - release/**
+    paths:
+      - ./src/AzureRegistryDemo.Frontend/**
 
 jobs:
  build-and-push-second:
@@ -28,7 +30,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./src/TestProject/TestSolution
-          file: ./src/TestProject/TestSolution/TestProject/Dockerfile
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/testimage:${{ env.IMAGE_VERSION }}
+          context: ./src/AzureRegistryDemo.Frontend/testFront
+          file: ./src/AzureRegistryDemo.Frontend/testFront/Dockerfile
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/testfront:${{ env.IMAGE_VERSION }}
           push: true
