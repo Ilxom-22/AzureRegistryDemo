@@ -11,8 +11,7 @@ public class UsersController(AppDbContext appDbContext) : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        //return Ok(appDbContext.Users.ToList());
-        return Ok(Environment.GetEnvironmentVariable("DbConnectionString"));
+        return Ok(appDbContext.Users.ToList());
     }
 
     [HttpPost]
@@ -21,7 +20,7 @@ public class UsersController(AppDbContext appDbContext) : ControllerBase
         await appDbContext.AddAsync(user);
         await appDbContext.SaveChangesAsync();
 
-        return Ok(Environment.GetEnvironmentVariable("DbConnectionString"));
+        return Ok(user);
     }
 
     [HttpPut]
@@ -30,7 +29,7 @@ public class UsersController(AppDbContext appDbContext) : ControllerBase
         appDbContext.Users.Update(user);
         await appDbContext.SaveChangesAsync();
 
-        return Ok(Environment.GetEnvironmentVariable("DbConnectionString"));
+        return Ok(user);
     }
 
     [HttpDelete("{userId:guid}")]
@@ -41,6 +40,6 @@ public class UsersController(AppDbContext appDbContext) : ControllerBase
         appDbContext.Users.Remove(foundUser);
         await appDbContext.SaveChangesAsync();
 
-        return Ok(Environment.GetEnvironmentVariable("DbConnectionString"));
+        return Ok(foundUser);
     }
 }

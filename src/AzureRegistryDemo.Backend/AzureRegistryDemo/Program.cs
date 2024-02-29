@@ -1,7 +1,6 @@
 using AzureRegistryDemo.DataContexts;
 using AzureRegistryDemo.Extensions;
 using AzureRegistryDemo.SeedData;
-using AzureRegistryDemo.Settings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,20 +9,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-Console.WriteLine(Environment.GetEnvironmentVariable("DbConnectionString"));
-
-/*var dbConnectionString = builder.Configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>()?.DbConnectionString;*/
-
 builder.Services
     .AddDbContext<AppDbContext>(options =>
-        //options.UseNpgsql(dbConnectionString));
-        options.UseInMemoryDatabase("AzureDemoRegistry"));
+        options.UseNpgsql(Environment.GetEnvironmentVariable("DbConnectionString")));
 
 var app = builder.Build();
 
 // Apply pending migrations to database
-/*var serviceScopeFactory = app.Services.GetRequiredKeyedService<IServiceScopeFactory>(null);
-await serviceScopeFactory.MigrateAsync<AppDbContext>();*/
+var serviceScopeFactory = app.Services.GetRequiredKeyedService<IServiceScopeFactory>(null);
+await serviceScopeFactory.MigrateAsync<AppDbContext>();
 
 // Add SeedData
 var serviceScope = app.Services.CreateScope();
@@ -33,7 +27,5 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapControllers();
-
-Console.WriteLine(Environment.GetEnvironmentVariable("DbConnectionString"));
 
 app.Run();
