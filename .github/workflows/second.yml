@@ -6,10 +6,10 @@ on:
     branches:
       - release/**
     paths:
-      - src/AzureRegistryDemo.Backend/**
+      - src/AzureRegistryDemo.Frontend/**
 
 jobs:
-  build-and-push:
+ build-and-push-second:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,13 +32,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./src/AzureRegistryDemo.Backend
-          file: ./src/AzureRegistryDemo.Backend/AzureRegistryDemo/Dockerfile
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:${{ env.IMAGE_VERSION }}
+          context: ./src/AzureRegistryDemo.Frontend/testFront
+          file: ./src/AzureRegistryDemo.Frontend/testFront/Dockerfile
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/testfront:${{ env.IMAGE_VERSION }}
           push: true
 
-  create-container-app:
-    needs: build-and-push
+ create-container-app:
+    needs: build-and-push-second
     runs-on: ubuntu-latest
   
     steps:
@@ -56,7 +56,7 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          acrName: ${{ secrets.ACR_USERNAME }}
-          containerAppName: ${{ secrets.ACA_CONTAINER }}
-          resourceGroup: ${{ secrets.ACA_RESOURCE_GROUP }}
-          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_USERNAME }}:${{ env.IMAGE_VERSION }}
+          acrName: demor
+          containerAppName: front-container
+          resourceGroup: Container-Resources
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/testfront:${{ env.IMAGE_VERSION }}
